@@ -1,8 +1,14 @@
-import app from "./app";
+import { Server } from 'http';
+import app from './app'
 
 
-const port = 3000
 
-app.listen(port, () => {
-    console.log(`App is listening on port ${port}`);
-})
+async function main() {
+    const server: Server = app.listen(3000, () => {
+        console.log("Sever is running on port ", 3000);
+    });
+
+
+};
+
+main();

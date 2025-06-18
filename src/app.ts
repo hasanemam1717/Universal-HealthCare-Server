@@ -1,21 +1,21 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors'
+import { userRoutes } from './app/modules/User/user.route';
 const app: Application = express()
 app.use(cors())
 
-async function main() {
-    try {
-        const server = app.get('/', (req: Request, res: Response) => {
-            res.send({
-                massage: "Universal Health Care Server is running ⚡"
-            })
-        })
-    } catch (err) {
-        console.log(err);
-    }
+// parser
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-}
-main()
+app.get('/', (req: Request, res: Response) => {
+    res.send({
+        massage: "Universal Health Care Server is running ⚡"
+    })
+})
+
+app.use('/api/v1/user', userRoutes)
+
 
 
 
