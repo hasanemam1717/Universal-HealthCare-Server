@@ -28,7 +28,7 @@ const getAllAdminData = async (params: any) => {
         })
     }
 
-    console.dir(addConditions, { depth: "infinity" });
+    // console.dir(addConditions, { depth: "infinity" });
 
     const whereCondition: Prisma.AdminWhereInput = { AND: addConditions }
 
