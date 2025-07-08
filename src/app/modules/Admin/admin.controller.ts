@@ -13,6 +13,45 @@ const getAllAdminData = async (req: Request, res: Response) => {
         res.status(200).json({
             success: true,
             massage: "Admin get successfully.",
+            meta: result.meta,
+            data: result.data
+        })
+
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            massage: err?.name || "Something went wrong.",
+            data: err
+        })
+    }
+}
+const getDataById = async (req: Request, res: Response) => {
+    const { id } = req.params
+    console.log(id);
+    try {
+        const result = await adminService.getDataById(id)
+        res.status(200).json({
+            success: true,
+            massage: "Admin get successfully.",
+            data: result
+        })
+
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            massage: err?.name || "Something went wrong.",
+            data: err
+        })
+    }
+
+}
+const updateIntoDb = async (req: Request, res: Response) => {
+    const { id } = req.params
+    try {
+        const result = await adminService.updateIntoDb(id, req.body)
+        res.status(200).json({
+            success: true,
+            massage: "Admin updated successfully.",
             data: result
         })
 
@@ -25,6 +64,28 @@ const getAllAdminData = async (req: Request, res: Response) => {
     }
 }
 
+
+const deleteFromDb = async (req: Request, res: Response) => {
+    const { id } = req.params
+    try {
+        const result = await adminService.deleteFromDb(id)
+        res.status(200).json({
+            success: true,
+            massage: "Admin deleted successfully.",
+            data: result
+        })
+
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            massage: err?.name || "Something went wrong.",
+            data: err
+        })
+    }
+}
 export const adminController = {
-    getAllAdminData
+    getAllAdminData,
+    getDataById,
+    updateIntoDb,
+    deleteFromDb
 }
