@@ -7,7 +7,6 @@ import { adminSearchableFields } from "./admin.constant";
 
 
 
-
 const getAllAdminData = async (params: any, options: any) => {
     const { limit, page, skip } = paginationHelpers.calculatePagination(options)
     const addConditions: Prisma.AdminWhereInput[] = []
