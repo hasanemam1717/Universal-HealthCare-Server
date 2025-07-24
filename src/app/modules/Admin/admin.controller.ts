@@ -4,7 +4,7 @@ import pick from "../../../shared/pick";
 import { adminFilterableFields } from "./admin.constant";
 import sendResponse from "../../../shared/sendResponse";
 
-
+import status from "http-status";
 
 
 
@@ -12,17 +12,10 @@ const getAllAdminData = async (req: Request, res: Response) => {
     try {
         const filters = pick(req.query, adminFilterableFields)
         const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder'])
-        // console.log(options);
         const result = await adminService.getAllAdminData(filters, options)
-        // res.status(200).json({
-        //     success: true,
-        //     massage: "Admin get successfully.",
-        //     meta: result.meta,
-        //     data: result.data
-        // })
 
         sendResponse(res, {
-            statusCode: 200,
+            statusCode: status.OK,
             massage: "Admin data get successfully",
             meta: result.meta,
             data: result.data
@@ -42,7 +35,7 @@ const getDataById = async (req: Request, res: Response) => {
     try {
         const result = await adminService.getDataById(id)
         sendResponse(res, {
-            statusCode: 200,
+            statusCode: status.OK,
             success: true,
             massage: "Admin get by id",
             data: result
@@ -62,7 +55,7 @@ const updateIntoDb = async (req: Request, res: Response) => {
     try {
         const result = await adminService.updateIntoDb(id, req.body)
         sendResponse(res, {
-            statusCode: 200,
+            statusCode: status.OK,
             success: true,
             massage: "Admin updated by id",
             data: result
@@ -83,7 +76,7 @@ const deleteFromDb = async (req: Request, res: Response) => {
     try {
         const result = await adminService.deleteFromDb(id)
         sendResponse(res, {
-            statusCode: 200,
+            statusCode: status.OK,
             success: true,
             massage: "Admin delete by id",
             data: result
@@ -102,14 +95,14 @@ const softDeleteFromDb = async (req: Request, res: Response) => {
     try {
         const result = await adminService.softDeleteFromDb(id)
         sendResponse(res, {
-            statusCode: 200,
+            statusCode: status.OK,
             success: true,
             massage: "Admin get by id",
             data: result
         })
 
     } catch (err: any) {
-        res.status(500).json({
+        res.status(status.BAD_REQUEST).json({
             success: false,
             massage: err?.name || "Something went wrong.",
             data: err
