@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { adminService } from "./admin.service";
 import pick from "../../../shared/pick";
 import { adminFilterableFields } from "./admin.constant";
@@ -8,7 +8,7 @@ import status from "http-status";
 
 
 
-const getAllAdminData = async (req: Request, res: Response) => {
+const getAllAdminData = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const filters = pick(req.query, adminFilterableFields)
         const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder'])
@@ -22,14 +22,10 @@ const getAllAdminData = async (req: Request, res: Response) => {
         })
 
     } catch (err: any) {
-        res.status(500).json({
-            success: false,
-            massage: err?.name || "Something went wrong.",
-            data: err
-        })
+        next(err)
     }
 }
-const getDataById = async (req: Request, res: Response) => {
+const getDataById = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params
     console.log(id);
     try {
@@ -42,15 +38,11 @@ const getDataById = async (req: Request, res: Response) => {
         })
 
     } catch (err: any) {
-        res.status(500).json({
-            success: false,
-            massage: err?.name || "Something went wrong.",
-            data: err
-        })
+        next(err)
     }
 
 }
-const updateIntoDb = async (req: Request, res: Response) => {
+const updateIntoDb = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params
     try {
         const result = await adminService.updateIntoDb(id, req.body)
@@ -62,16 +54,12 @@ const updateIntoDb = async (req: Request, res: Response) => {
         })
 
     } catch (err: any) {
-        res.status(500).json({
-            success: false,
-            massage: err?.name || "Something went wrong.",
-            data: err
-        })
+        next(err)
     }
 }
 
 
-const deleteFromDb = async (req: Request, res: Response) => {
+const deleteFromDb = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params
     try {
         const result = await adminService.deleteFromDb(id)
@@ -83,14 +71,10 @@ const deleteFromDb = async (req: Request, res: Response) => {
         })
 
     } catch (err: any) {
-        res.status(500).json({
-            success: false,
-            massage: err?.name || "Something went wrong.",
-            data: err
-        })
+        next(err)
     }
 }
-const softDeleteFromDb = async (req: Request, res: Response) => {
+const softDeleteFromDb = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params
     try {
         const result = await adminService.softDeleteFromDb(id)
@@ -102,11 +86,7 @@ const softDeleteFromDb = async (req: Request, res: Response) => {
         })
 
     } catch (err: any) {
-        res.status(status.BAD_REQUEST).json({
-            success: false,
-            massage: err?.name || "Something went wrong.",
-            data: err
-        })
+        next(err)
     }
 }
 export const adminController = {

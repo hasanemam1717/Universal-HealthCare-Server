@@ -2,6 +2,7 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors'
 import router from './app/modules/routes';
 import status from 'http-status';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
 const app: Application = express()
 app.use(cors())
 
@@ -16,6 +17,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 app.use('/api/v1/', router)
+app.use(globalErrorHandler)
 app.use((req: Request, res: Response, next: NextFunction) => {
     console.log(req);
     res.status(status.NOT_FOUND).json({
