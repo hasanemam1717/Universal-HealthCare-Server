@@ -3,11 +3,13 @@
 import { Admin, Prisma, UserStatus } from "../../../generated/prisma";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import prisma from "../../../shared/prisma";
+import { IPaginationOptions } from "../../interfaces/pagination";
 import { adminSearchableFields } from "./admin.constant";
+import { IAdminFilterRequest } from "./admin.interface";
 
 
 
-const getAllAdminData = async (params: any, options: any) => {
+const getAllAdminData = async (params: IAdminFilterRequest, options: IPaginationOptions) => {
     const { limit, page, skip } = paginationHelpers.calculatePagination(options)
     const addConditions: Prisma.AdminWhereInput[] = []
 
@@ -18,7 +20,7 @@ const getAllAdminData = async (params: any, options: any) => {
         addConditions.push({
             AND: Object.keys(filterData).map(key => ({
                 [key]: {
-                    equals: filterData[key]
+                    equals: (filterData as any)[key]
                 }
             }))
         })
@@ -48,7 +50,7 @@ const getAllAdminData = async (params: any, options: any) => {
         skip: (Number(page) - 1) * Number(limit),
         take: Number(limit),
         orderBy: options.sortBy && options.sortOrder ? {
-            [options.sortBy]: options.SortOrder
+            [options.sortBy]: options.sortOrder
         } : {
             createdAt: 'desc'
         }

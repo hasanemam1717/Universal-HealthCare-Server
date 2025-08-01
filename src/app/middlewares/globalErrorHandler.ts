@@ -6,7 +6,7 @@ const globalErrorHandler =
         console.log("Error occuerd");
         res.status(status.INTERNAL_SERVER_ERROR).json({
             success: false,
-            massage: err.name || "Something went wrong",
+            message: err.message || "Something went wrong",
             error: err
         })
     }

@@ -1,4 +1,4 @@
-import { AnyZodObject } from './../../../../node_modules/zod/v3/types.d';
+
 
 import express, { NextFunction, Request, Response } from "express";
 import { adminController } from "./admin.controller";
@@ -12,7 +12,9 @@ const router = express.Router()
 
 router.get("/", adminController.getAllAdminData)
 router.get('/:id', adminController.getDataById)
-router.patch('/:id', validateRequest(adminValidationSchemas.update), adminController.updateIntoDb)
+router.patch('/:id',
+    validateRequest(adminValidationSchemas.update),
+    adminController.updateIntoDb)
 router.delete('/:id', adminController.deleteFromDb)
 router.delete('/soft/:id', adminController.softDeleteFromDb)
 
