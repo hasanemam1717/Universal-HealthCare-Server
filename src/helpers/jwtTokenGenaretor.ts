@@ -4,4 +4,4 @@ const generateToken = (payload: any, secret: string, expiresIn: any) => {
     return token
 }
 
-export default generateToken
+export const jwtHelpers = { generateToken } 

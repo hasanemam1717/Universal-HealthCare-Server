@@ -29,8 +29,13 @@ const logInUser = async (payload: {
     }
 }
 
+const refreshToken = async (token: string) => {
+    console.log("Refresh Token", token);
+}
+
 
 
 export const authService = {
-    logInUser
+    logInUser,
+    refreshToken
 }
