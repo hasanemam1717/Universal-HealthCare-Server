@@ -16,8 +16,8 @@ const auth = (...roles: string[]) => {
             if (roles.length && !roles.includes(verifiedUser.role)) {
                 throw new ApiError(status.FORBIDDEN, "You are not authorized.")
             }
+            req.user = verifiedUser
             next()
-            console.log(verifiedUser);
         }
         catch (err) {
             next(err)

@@ -5,17 +5,21 @@ import { adminController } from "./admin.controller";
 import { z } from "zod";
 import validateRequest from '../../middlewares/validateRequest';
 import { adminValidationSchemas } from './admin.validation';
+import auth from "../../middlewares/auth";
+import { UserRole } from "../../../generated/prisma";
 
 const router = express.Router()
 
 
 
-router.get("/", adminController.getAllAdminData)
-router.get('/:id', adminController.getDataById)
-router.patch('/:id',
+router.get("/",
+    auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+    adminController.getAllAdminData)
+router.get('/:id', auth(UserRole.ADMIN, UserRole.SUPER_ADMIN), adminController.getDataById)
+router.patch('/:id', auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
     validateRequest(adminValidationSchemas.update),
     adminController.updateIntoDb)
-router.delete('/:id', adminController.deleteFromDb)
-router.delete('/soft/:id', adminController.softDeleteFromDb)
+router.delete('/:id', auth(UserRole.ADMIN, UserRole.SUPER_ADMIN), adminController.deleteFromDb)
+router.delete('/soft/:id', auth(UserRole.ADMIN, UserRole.SUPER_ADMIN), adminController.softDeleteFromDb)
 
 export const adminRoutes = router
