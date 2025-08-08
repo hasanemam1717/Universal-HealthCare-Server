@@ -2,12 +2,14 @@ import multer from "multer"
 import path from "path"
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs'
+import { IFile, TCloudinaryUploadResponse } from "../app/interfaces/file";
+import config from "../config";
 
 // Configuration
 cloudinary.config({
     cloud_name: 'dwzjrzcq2',
     api_key: '246732558457642',
-    api_secret: 'zDUrt3iyd0v-2fvCfBSlPXyqqYA' // Click 'View API Keys' above to copy your API secret
+    api_secret: config.cloudinary_api_secret // Click 'View API Keys' above to copy your API secret
 });
 
 const storage = multer.diskStorage({
@@ -21,17 +23,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-const uploadToCloudinary = async (file: any) => {
-    console.log(file);
+const uploadToCloudinary = async (file: IFile): Promise<TCloudinaryUploadResponse | undefined> => {
+    // console.log(file);
 
     return new Promise((resolve, reject) => {
         cloudinary.uploader
             .upload(
-                file.path, {
-                public_id: file.originalname,
-            },
-                (error, result) => {
-                    fs.unlinkSync(file.path)
+                file.path,
+                (error: Error, result: TCloudinaryUploadResponse) => {
+                    fs.unlinkSync(file?.path)
                     if (error) {
                         reject(error)
                     } else {
