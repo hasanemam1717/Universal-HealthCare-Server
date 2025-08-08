@@ -9,7 +9,10 @@ const router = express.Router()
 
 
 
-
+router.get('/',
+    auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+    userController.getAllUserFromDB
+)
 
 router.post("/create-admin",
     auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
@@ -38,5 +41,9 @@ router.post(
         return userController.createPatient(req, res, next)
     }
 );
+router.patch("/:id/status",
+    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
+    userController.changeProfileStatus
+)
 
 export const userRoutes = router
