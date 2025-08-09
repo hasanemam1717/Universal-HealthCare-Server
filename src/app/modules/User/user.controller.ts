@@ -64,10 +64,26 @@ const changeProfileStatus = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 });
+
+const getMyProfile = catchAsync(async (req: Request, res: Response) => {
+    const user = req.user
+
+    const result = await userService.getMyProfile(user)
+
+    sendResponse(res, {
+        statusCode: status.OK,
+        success: true,
+        massage: "My profile data data retrieved",
+        data: result
+    })
+});
+
+
 export const userController = {
     createAdmin,
     createDoctor,
     createPatient,
     getAllUserFromDB,
-    changeProfileStatus
+    changeProfileStatus,
+    getMyProfile
 }
