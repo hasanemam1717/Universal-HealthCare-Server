@@ -1,4 +1,4 @@
-import { Admin, Doctor, Patient, Prisma, UserRole } from "../../../generated/prisma";
+import { Admin, Doctor, Patient, Prisma, UserRole, UserStatus } from "../../../generated/prisma";
 import bcrypt from 'bcrypt'
 import prisma from "../../../shared/prisma";
 import { fileUploader } from "../../../helpers/fileUploaders";
@@ -183,7 +183,8 @@ const changeProfileStatus = async (id: string, status: UserRole) => {
 const getMyProfile = async (user) => {
     const userInfo = await prisma.user.findUniqueOrThrow({
         where: {
-            email: user.email
+            email: user.email,
+            status: UserStatus.ACTIVE
         },
         select: {
             id: true,
@@ -227,6 +228,55 @@ const getMyProfile = async (user) => {
     return { ...userInfo, ...profileInfo }
 }
 
+const updateMyProfile = async (user: any, req: Request) => {
+    const userInfo = await prisma.user.findUniqueOrThrow({
+        where: {
+            email: user.email,
+            status: UserStatus.ACTIVE
+        }
+    })
+    const file = req.file as IFile
+    if (file) {
+        const uploadToCloudinary = await fileUploader.uploadToCloudinary(file)
+        req.body.profilePhoto = uploadToCloudinary?.secure_url
+    }
+    let profileInfo;
+    if (userInfo.role === UserRole.SUPER_ADMIN) {
+        profileInfo = await prisma.admin.update({
+            where: {
+                email: userInfo.email
+            },
+            data: req.body
+        })
+    }
+    else if (userInfo.role === UserRole.ADMIN) {
+        profileInfo = await prisma.admin.update({
+            where: {
+                email: userInfo.email
+            },
+            data: req.body
+        })
+    }
+    else if (userInfo.role === UserRole.DOCTOR) {
+        profileInfo = await prisma.admin.update({
+            where: {
+                email: userInfo.email
+            },
+            data: req.body
+        })
+    }
+    else if (userInfo.role === UserRole.PATIENT) {
+        profileInfo = await prisma.admin.update({
+            where: {
+                email: userInfo.email
+            },
+            data: req.body
+        })
+    }
+    return { ...profileInfo }
+
+}
+
 
 export const userService = {
     createAdmin,
@@ -234,5 +284,6 @@ export const userService = {
     createPatient,
     getAllUserFromDb,
     changeProfileStatus,
-    getMyProfile
+    getMyProfile,
+    updateMyProfile
 }
