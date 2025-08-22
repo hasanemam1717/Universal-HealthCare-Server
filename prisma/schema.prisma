@@ -82,6 +82,7 @@ model Doctor {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
  user User @relation(fields: [email],references: [email])
+ doctorSpecialties DoctorSpecialties[]
   @@map("doctors")
 }
 
@@ -99,4 +100,22 @@ model Patient {
   user User @relation(references: [email], fields: [email])
 
   @@map("patients")
+}
+
+model Specialties {
+  id String @id @default(ulid())
+  title String
+  icon String
+  doctorSpecialties DoctorSpecialties[]
+
+  @@map("specialties")
+}
+
+model DoctorSpecialties {
+  specialtiesId String
+  specialties Specialties @relation(fields: [specialtiesId],references: [id])
+  doctorId String
+doctor Doctor @relation(fields: [doctorId],references: [id])
+  @@id([specialtiesId,doctorId])
+  @@map("doctorSpecialties")
 }
