@@ -10,9 +10,11 @@ const router = express.Router()
 
 
 router.get("/",
-    auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+    // auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
     doctorController.getAllDoctorData)
 router.get('/:id', auth(UserRole.ADMIN, UserRole.SUPER_ADMIN), doctorController.getDataById)
+router.patch('/:id', auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+    doctorController.updateIntoDb)
 router.delete('/:id', auth(UserRole.ADMIN, UserRole.SUPER_ADMIN), doctorController.deleteFromDb)
 router.delete('/soft/:id', auth(UserRole.ADMIN, UserRole.SUPER_ADMIN), doctorController.softDeleteFromDb)
 

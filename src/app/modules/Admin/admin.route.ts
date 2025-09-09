@@ -2,7 +2,6 @@
 
 import express, { NextFunction, Request, Response } from "express";
 import { adminController } from "./admin.controller";
-import { z } from "zod";
 import validateRequest from '../../middlewares/validateRequest';
 import { adminValidationSchemas } from './admin.validation';
 import auth from "../../middlewares/auth";

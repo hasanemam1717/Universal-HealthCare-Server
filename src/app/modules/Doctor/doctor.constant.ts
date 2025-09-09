@@ -1,2 +1,17 @@
-export const doctorFilterableFields = ['searchTerm', 'email', 'name', 'contactNumber']
-export const doctorSearchableFields = ["name", "email"]
+export const doctorSearchableFields: string[] = [
+    'name',
+    'email',
+    'contactNumber',
+    'address',
+    'qualification',
+    'designation'
+];
+
+export const doctorFilterableFields: string[] = [
+    'searchTerm',
+    'email',
+    'contactNumber',
+    'gender',
+    'appointmentFee',
+    'specialties'
+];

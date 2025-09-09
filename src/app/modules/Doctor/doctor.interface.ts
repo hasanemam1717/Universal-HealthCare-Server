@@ -1,6 +1,8 @@
+
 export type IDoctorFilterRequest = {
-    name?: string | undefined,
-    email?: string | undefined,
-    contactNumber?: string | undefined,
-    searchTerm?: string | undefined,
-}
+    searchTerm?: string | undefined;
+    email?: string | undefined;
+    contactNo?: string | undefined;
+    gender?: string | undefined;
+    specialties?: string | undefined;
+};
