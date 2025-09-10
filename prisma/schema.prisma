@@ -114,7 +114,7 @@ model Specialties {
 }
 
 model MedicalReport {
-  id         String   @id @default(ulid())
+  id         String   @id @default(uuid())
   patientId  String
   reportName String
   reportLink String
@@ -125,7 +125,7 @@ model MedicalReport {
 
 
 model PatientHealthData{
-  id String @id @default(ulid())
+  id String @id @default(uuid())
   patientId String @unique
   patient Patient @relation(fields: [patientId], references: [id])
   gender Gender
