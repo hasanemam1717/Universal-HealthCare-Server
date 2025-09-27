@@ -6,6 +6,7 @@ import auth from '../../middlewares/auth';
 const router = express.Router()
 
 router.post('/', auth(UserRole.DOCTOR), doctorScheduleController.insertIntoDb)
+router.get('/my-schedule', auth(UserRole.DOCTOR), doctorScheduleController.getMySchedule)
 
 
 export const doctorScheduleRoutes = router  
