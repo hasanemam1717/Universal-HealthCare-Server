@@ -10,7 +10,6 @@ const insertIntoDb = async (payload: ISchedule): Promise<Schedule[]> => {
     const { startDate, endDate, startTime, endTime } = payload;
 
     const intervalTime = 30;
-
     const schedules = [];
 
     const currentDate = new Date(startDate); // start date
