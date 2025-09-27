@@ -3,9 +3,10 @@ import prisma from "../../../shared/prisma";
 import { IAuthUser } from "../../interfaces/common";
 import { IPaginationOptions } from "../../interfaces/pagination";
 import ApiError from "../../errors/ApiError";
-import httpStatus from "http-status";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { Prisma } from "../../../generated/prisma";
+import status from "http-status";
+import { IDoctorScheduleFilterRequest } from "./scheduleDoctor.interface";
 
 const insertIntoDB = async (user: any, payload: {
     scheduleIds: string[]
@@ -128,7 +129,7 @@ const deleteFromDB = async (user: IAuthUser, scheduleId: string) => {
     });
 
     if (isBookedSchedule) {
-        throw new ApiError(httpStatus.BAD_REQUEST, "You can not delete the schedule because of the schedule is already booked!")
+        throw new ApiError(status.BAD_REQUEST, "You can not delete the schedule because of the schedule is already booked!")
     }
 
     const result = await prisma.doctorSchedules.delete({
@@ -144,8 +145,7 @@ const deleteFromDB = async (user: IAuthUser, scheduleId: string) => {
 }
 
 const getAllFromDB = async (
-    filters: any,
-    // filters: IDoctorScheduleFilterRequest,
+    filters: IDoctorScheduleFilterRequest,
     options: IPaginationOptions,
 ) => {
     const { limit, page, skip } = paginationHelpers.calculatePagination(options);
