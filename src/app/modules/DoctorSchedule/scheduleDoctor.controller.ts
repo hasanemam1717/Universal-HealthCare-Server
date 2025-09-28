@@ -6,6 +6,7 @@ import status from "http-status";
 import { IAuthUser } from "../../interfaces/common";
 import pick from "../../../shared/pick";
 import { doctorScheduleService } from "./scheduleDoctor.service";
+import { scheduleFilterableFields } from "./doctorSchedule.constant";
 
 const insertIntoDb = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
     const user = req.user;
@@ -18,6 +19,18 @@ const insertIntoDb = catchAsync(async (req: Request & { user?: IAuthUser }, res:
 
     })
 })
+const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
+    const filters = pick(req.query, scheduleFilterableFields);
+    const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
+    const result = await doctorScheduleService.getAllFromDB(filters, options);
+    sendResponse(res, {
+        statusCode: status.OK,
+        success: true,
+        massage: 'Doctor Schedule retrieval successfully',
+        meta: result.meta,
+        data: result.data,
+    });
+});
 
 const getMySchedule = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
     const filters = pick(req.query, ['startDate', 'endDate', 'isBooked']);
@@ -50,5 +63,6 @@ const deleteFromDB = catchAsync(async (req: Request & { user?: IAuthUser }, res:
 export const doctorScheduleController = {
     insertIntoDb,
     getMySchedule,
-    deleteFromDB
+    deleteFromDB,
+    getAllFromDB
 }

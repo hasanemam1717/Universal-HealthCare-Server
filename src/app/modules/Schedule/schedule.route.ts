@@ -12,11 +12,6 @@ router.get(
     ScheduleController.getAllFromDB
 );
 
-/**
- * API ENDPOINT: /schedule/:id
- * 
- * Get schedule data by id
- */
 router.get(
     '/:id',
     auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.DOCTOR),
@@ -31,11 +26,6 @@ router.post(
 
 
 
-/**
- * API ENDPOINT: /schedule/:id
- * 
- * Delete schedule data by id
- */
 
 router.delete(
     '/:id',
