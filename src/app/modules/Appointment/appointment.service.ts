@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import prisma from "../../../shared/prisma";
 import { IAuthUser } from "../../interfaces/common";
+import { date } from "zod";
 
 const createAppointment = async (user: IAuthUser, payload: any) => {
     const patientInfo = await prisma.patient.findUniqueOrThrow({
@@ -46,6 +47,15 @@ const createAppointment = async (user: IAuthUser, payload: any) => {
             data: {
                 isBooked: true,
                 appointmentId: appointmentData.id
+            }
+        })
+        const today = new Date()
+        const transactionId = "UNIVERSAL_HEALTH_CARE" + today.getFullYear() + "_" + today.getMonth() + "_" + today.getDay() + "_" + today.getHours() + "_" + today.getMinutes()
+        await tx.payment.create({
+            data: {
+                appointmentId: appointmentData.id,
+                amount: doctorInfo.appointmentFee,
+                transactionId: transactionId
             }
         })
         return appointmentData
