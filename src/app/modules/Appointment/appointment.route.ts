@@ -1,12 +1,31 @@
-import express from 'express';
+import express from 'express'
 import auth from '../../middlewares/auth';
+import validateRequest from '../../middlewares/validateRequest';
+import { AppointmentValidation } from './appointment.validation';
 import { UserRole } from '../../../generated/prisma';
-import { appointmentController } from './appointment.controller';
-const route = express.Router()
+import { AppointmentController } from './appointment.controller';
 
-route.post('/', auth(UserRole.PATIENT), appointmentController.createAppointment)
-route.get('/my-appointment', auth(UserRole.PATIENT, UserRole.DOCTOR), appointmentController.getMyAppointment)
+const router = express.Router();
 
-export const appointmentRoutes = route
+router.get(
+    '/',
+    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
+    AppointmentController.getAllFromDB
+);
+
+router.get(
+    '/my-appointment',
+    auth(UserRole.PATIENT, UserRole.DOCTOR),
+    AppointmentController.getMyAppointment
+)
+
+router.post(
+    '/',
+    auth(UserRole.PATIENT),
+    validateRequest(AppointmentValidation.createAppointment),
+    AppointmentController.createAppointment
+);
 
 
+
+export const appointmentRoutes = router;
