@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
-import httpStatus from "http-status";
+import httpStatus, { status } from "http-status";
 import { IAuthUser } from "../../interfaces/common";
 import pick from "../../../shared/pick";
 import { appointmentFilterableFields } from "./appointment.constant";
@@ -29,7 +29,7 @@ const getMyAppointment = catchAsync(async (req: Request & { user?: IAuthUser }, 
     const result = await AppointmentService.getMyAppointment(user as IAuthUser, filters, options);
 
     sendResponse(res, {
-        statusCode: httpStatus.OK,
+        statusCode: status.OK,
         success: true,
         massage: 'My Appointment retrieve successfully',
         data: result
