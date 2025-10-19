@@ -2,8 +2,9 @@ import axios from "axios";
 import config from "../../../config";
 import ApiError from "../../errors/ApiError";
 import status from "http-status";
+import { IPaymentData } from "./ssl.interface";
 
-const initPayment = async (paymentData: any) => {
+const initPayment = async (paymentData: IPaymentData) => {
     try {
         const { amount, transactionId, patientName, patientEmail, patientAddress, patientPhoneNumber } = paymentData
 
