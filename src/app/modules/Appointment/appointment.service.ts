@@ -4,7 +4,7 @@ import { IAuthUser } from "../../interfaces/common"
 import { v4 as uuidv4 } from 'uuid';
 import { IPaginationOptions } from "../../interfaces/pagination";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
-import { AppointmentStatus, Prisma, UserRole } from "../../../generated/prisma";
+import { AppointmentStatus, PaymentStatus, Prisma, UserRole } from "../../../generated/prisma";
 import ApiError from "../../errors/ApiError";
 
 
@@ -234,9 +234,53 @@ const changeAppointmentStatus = async (appointmentId: string, status: Appointmen
 
 }
 
+const cancelUnpaidAppointments = async () => {
+    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000)
+    const unpaidAppointments = await prisma.appointment.findMany({
+        where: {
+            createdAt: {
+                lte: thirtyMinutesAgo
+            },
+            paymentStatus: PaymentStatus.UNPAID
+        }
+    })
+    const appointmentIdsToCancel = unpaidAppointments.map(appoint => appoint.id)
+    console.log(appointmentIdsToCancel);
+    await prisma.$transaction(async (tx) => {
+        await tx.payment.deleteMany({
+            where: {
+                appointmentId: {
+                    in: appointmentIdsToCancel
+                }
+            }
+        })
+        await tx.appointment.deleteMany({
+            where: {
+                id: {
+                    in: appointmentIdsToCancel
+                }
+            }
+        })
+
+        for (const unpaidAppointment of unpaidAppointments) {
+
+            await tx.doctorSchedules.updateMany({
+                where: {
+                    doctorId: unpaidAppointment.doctorId,
+                    scheduleId: unpaidAppointment.scheduleId
+                },
+                data: {
+                    isBooked: false
+                }
+            })
+        }
+    })
+}
+
 export const AppointmentService = {
     createAppointment,
     getMyAppointment,
     getAllFromDB,
-    changeAppointmentStatus
+    changeAppointmentStatus,
+    cancelUnpaidAppointments
 }
