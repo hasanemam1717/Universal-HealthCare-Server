@@ -18,7 +18,8 @@ const insertIntoDb = catchAsync(async (req: Request & { user?: IAuthUser }, res:
         massage: "Prescription created successfully!",
         data: result
     })
-}); const getPatientPrescription = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+});
+const getPatientPrescription = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
     const user = req.user
     const options = pick(req.query, ["limit", 'page', 'sortBy', 'sortOrder'])
 
