@@ -15,6 +15,16 @@ async function main() {
                 console.info("Sorry, Server closed for uncaught exception!!");
             })
         }
+        process.exit(1)
+    })
+    process.on("unhandledRejection", (error) => {
+        console.log(error);
+        if (server) {
+            server.close(() => {
+                console.info("Sorry, Server closed for unhandled Rejection!!");
+            })
+        }
+        process.exit(1)
     })
 };
 
