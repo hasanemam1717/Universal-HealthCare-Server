@@ -63,11 +63,11 @@ const getPatientPrescription = async (user: IAuthUser, options: IPaginationOptio
     return {
         meta: {
             total,
-            page,
-            limit,
-            data: result
-        }
-    }
+            page: Number(page),
+            limit: Number(limit),
+        },
+        data: result,
+    };
 }
 
 export const prescriptionService = { insertIntoDb, getPatientPrescription }

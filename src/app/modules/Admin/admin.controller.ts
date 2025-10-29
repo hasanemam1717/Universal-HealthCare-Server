@@ -19,6 +19,7 @@ const getAllAdminData = catchAsync(async (req: Request, res: Response) => {
 
     sendResponse(res, {
         statusCode: status.OK,
+        success: true,
         massage: "Admin data get successfully",
         meta: result.meta,
         data: result.data

@@ -158,12 +158,12 @@ const getAllUserFromDb = async (params: any, options: IPaginationOptions) => {
     })
     return {
         meta: {
-            page,
-            limit,
-            total
+            total,
+            page: Number(page),
+            limit: Number(limit),
         },
-        data: result
-    }
+        data: result,
+    };
 }
 const changeProfileStatus = async (id: string, status: UserRole) => {
     const userData = await prisma.user.findUniqueOrThrow({

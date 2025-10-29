@@ -18,7 +18,7 @@ const getAllDoctorData = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         statusCode: status.OK,
         success: true,
-        message: 'Doctors retrieval successfully',
+        massage: 'Doctors retrieval successfully',
         meta: result.meta,
         data: result.data,
     });

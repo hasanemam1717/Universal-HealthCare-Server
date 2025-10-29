@@ -10,13 +10,13 @@ const sendResponse = <T>(res: Response, jsonData: {
         total: number
     },
     data: T | null | undefined
-},) => {
+}) => {
     res.status(jsonData.statusCode).json({
         success: jsonData.success,
-        massage: jsonData.massage,
+        message: jsonData.massage,
         meta: jsonData.meta || null || undefined,
-        data: jsonData.data || null || undefined,
+        data: jsonData.data || null || undefined
     })
 }
 
-export default sendResponse
+export default sendResponse;

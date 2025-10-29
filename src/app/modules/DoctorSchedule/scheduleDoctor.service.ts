@@ -200,8 +200,8 @@ const getAllFromDB = async (
     return {
         meta: {
             total,
-            page,
-            limit,
+            page: Number(page),
+            limit: Number(limit),
         },
         data: result,
     };

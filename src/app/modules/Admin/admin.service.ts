@@ -60,12 +60,12 @@ const getAllAdminData = async (params: IAdminFilterRequest, options: IPagination
     })
     return {
         meta: {
-            page,
-            limit,
-            total
+            total,
+            page: Number(page),
+            limit: Number(limit),
         },
-        data: result
-    }
+        data: result,
+    };
 }
 const getDataById = async (id: string): Promise<Admin | null> => {
     const result = await prisma.admin.findUnique({
