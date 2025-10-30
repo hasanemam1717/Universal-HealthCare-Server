@@ -7,7 +7,6 @@ exports.fileUploader = void 0;
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const cloudinary_1 = require("cloudinary");
-const fs_1 = __importDefault(require("fs"));
 const config_1 = __importDefault(require("../config"));
 // Configuration
 cloudinary_1.v2.config({
@@ -29,7 +28,7 @@ const uploadToCloudinary = async (file) => {
     return new Promise((resolve, reject) => {
         cloudinary_1.v2.uploader
             .upload(file.path, (error, result) => {
-            fs_1.default.unlinkSync(file?.path);
+            // fs.unlinkSync(file?.path)
             if (error) {
                 reject(error);
             }
