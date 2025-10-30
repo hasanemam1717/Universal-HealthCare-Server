@@ -31,7 +31,7 @@ const uploadToCloudinary = async (file: IFile): Promise<TCloudinaryUploadRespons
             .upload(
                 file.path,
                 (error: Error, result: TCloudinaryUploadResponse) => {
-                    fs.unlinkSync(file?.path)
+                    // fs.unlinkSync(file?.path)
                     if (error) {
                         reject(error)
                     } else {
