@@ -1,6 +1,6 @@
 
 import { z } from "zod";
-import { Gender, UserStatus } from "./../../../generated/prisma/index.d";
+import { Gender, UserStatus } from "./../../../generated/prisma";
 
 const createAdmin = z.object({
     password: z.string({

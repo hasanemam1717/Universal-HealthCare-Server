@@ -4,7 +4,7 @@ import { IAuthUser } from "../../interfaces/common"
 import { v4 as uuidv4 } from 'uuid';
 import { IPaginationOptions } from "../../interfaces/pagination";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
-import { AppointmentStatus, PaymentStatus, Prisma, UserRole } from "./../../../generated/prisma/index.d";
+import { AppointmentStatus, PaymentStatus, Prisma, UserRole } from "./../../../generated/prisma";
 import ApiError from "../../errors/ApiError";
 
 

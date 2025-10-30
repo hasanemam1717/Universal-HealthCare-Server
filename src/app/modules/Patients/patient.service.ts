@@ -4,7 +4,7 @@ import { IPatientFilterRequest, IPatientUpdate } from './patient.interface';
 import { IPaginationOptions } from '../../interfaces/pagination';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { patientSearchableFields } from './patient.constant';
-import { Patient, Prisma, UserStatus } from './../../../generated/prisma/index.d';
+import { Patient, Prisma, UserStatus } from './../../../generated/prisma';
 
 const getAllFromDB = async (
     filters: IPatientFilterRequest,

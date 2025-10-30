@@ -3,7 +3,7 @@ import axios from "axios";
 import config from "../../../config";
 import prisma from "../../../shared/prisma";
 import { sslService } from "../SSL/ssl.service";
-import { PaymentStatus } from "./../../../generated/prisma/index.d";
+import { PaymentStatus } from "./../../../generated/prisma";
 import { any } from "zod";
 import { IPaymentData } from "../SSL/ssl.interface";
 

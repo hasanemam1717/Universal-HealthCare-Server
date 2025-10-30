@@ -1,6 +1,6 @@
 import express from 'express';
 import { doctorScheduleController } from './scheduleDoctor.controller';
-import { UserRole } from './../../../generated/prisma/index.d';
+import { UserRole } from './../../../generated/prisma';
 import auth from '../../middlewares/auth';
 
 const router = express.Router()

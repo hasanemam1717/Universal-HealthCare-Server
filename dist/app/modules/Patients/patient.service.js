@@ -7,7 +7,7 @@ exports.PatientService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const patient_constant_1 = require("./patient.constant");
-const index_d_1 = require("./../../../generated/prisma/index.d");
+const prisma_2 = require("./../../../generated/prisma");
 const getAllFromDB = async (filters, options) => {
     const { limit, page, skip } = paginationHelper_1.paginationHelpers.calculatePagination(options);
     const { searchTerm, ...filterData } = filters;
@@ -165,7 +165,7 @@ const softDelete = async (id) => {
                 email: deletedPatient.email,
             },
             data: {
-                status: index_d_1.UserStatus.DELETED,
+                status: prisma_2.UserStatus.DELETED,
             },
         });
         return deletedPatient;

@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.doctorService = void 0;
-const index_d_1 = require("./../../../generated/prisma/index.d");
+const prisma_1 = require("./../../../generated/prisma");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
-const prisma_1 = __importDefault(require("../../../shared/prisma"));
+const prisma_2 = __importDefault(require("../../../shared/prisma"));
 const doctor_constant_1 = require("./doctor.constant");
 const getAllDoctorData = async (filters, options) => {
     const { limit, page, skip } = paginationHelper_1.paginationHelpers.calculatePagination(options);
@@ -49,7 +49,7 @@ const getAllDoctorData = async (filters, options) => {
         isDeleted: false,
     });
     const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
-    const result = await prisma_1.default.doctor.findMany({
+    const result = await prisma_2.default.doctor.findMany({
         where: whereConditions,
         skip,
         take: limit,
@@ -64,7 +64,7 @@ const getAllDoctorData = async (filters, options) => {
             }
         },
     });
-    const total = await prisma_1.default.doctor.count({
+    const total = await prisma_2.default.doctor.count({
         where: whereConditions,
     });
     return {
@@ -77,7 +77,7 @@ const getAllDoctorData = async (filters, options) => {
     };
 };
 const getDataById = async (id) => {
-    const result = await prisma_1.default.doctor.findUnique({
+    const result = await prisma_2.default.doctor.findUnique({
         where: {
             id,
             isDeleted: false
@@ -87,12 +87,12 @@ const getDataById = async (id) => {
 };
 const updateIntoDb = async (id, payload) => {
     const { specialties, ...doctorData } = payload;
-    const doctorInfo = await prisma_1.default.doctor.findUniqueOrThrow({
+    const doctorInfo = await prisma_2.default.doctor.findUniqueOrThrow({
         where: {
             id
         }
     });
-    await prisma_1.default.$transaction(async (transactionClient) => {
+    await prisma_2.default.$transaction(async (transactionClient) => {
         await transactionClient.doctor.update({
             where: {
                 id
@@ -124,7 +124,7 @@ const updateIntoDb = async (id, payload) => {
             }
         }
     });
-    const result = await prisma_1.default.doctor.findUnique({
+    const result = await prisma_2.default.doctor.findUnique({
         where: {
             id: doctorInfo.id
         },
@@ -139,12 +139,12 @@ const updateIntoDb = async (id, payload) => {
     return result;
 };
 const deleteFromDb = async (id) => {
-    await prisma_1.default.doctor.findUniqueOrThrow({
+    await prisma_2.default.doctor.findUniqueOrThrow({
         where: {
             id
         }
     });
-    const result = await prisma_1.default.$transaction(async (transactionClient) => {
+    const result = await prisma_2.default.$transaction(async (transactionClient) => {
         const doctorDeletedData = await transactionClient.doctor.delete({
             where: {
                 id
@@ -159,13 +159,13 @@ const deleteFromDb = async (id) => {
     });
 };
 const softDeleteFromDb = async (id) => {
-    await prisma_1.default.doctor.findUniqueOrThrow({
+    await prisma_2.default.doctor.findUniqueOrThrow({
         where: {
             id,
             isDeleted: false
         }
     });
-    const result = await prisma_1.default.$transaction(async (transactionClient) => {
+    const result = await prisma_2.default.$transaction(async (transactionClient) => {
         const doctorDeletedData = await transactionClient.doctor.update({
             where: {
                 id
@@ -179,7 +179,7 @@ const softDeleteFromDb = async (id) => {
                 email: doctorDeletedData.email
             },
             data: {
-                status: index_d_1.UserStatus.DELETED
+                status: prisma_1.UserStatus.DELETED
             }
         });
         return doctorDeletedData;

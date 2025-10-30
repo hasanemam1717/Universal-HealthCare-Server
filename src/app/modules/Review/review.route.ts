@@ -1,6 +1,6 @@
 import express from 'express';
 import auth from '../../middlewares/auth';
-import { UserRole } from './../../../generated/prisma/index.d';
+import { UserRole } from './../../../generated/prisma';
 import { reviewController } from './review.controller';
 const router = express.Router()
 router.post('/', auth(UserRole.PATIENT), reviewController.insertIntoDb)

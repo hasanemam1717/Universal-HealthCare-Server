@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-import { PaymentStatus, UserRole } from "./../../../generated/prisma/index.d";
+import { PaymentStatus, UserRole } from "./../../../generated/prisma";
 import ApiError from "../../errors/ApiError";
 import { IAuthUser } from "../../interfaces/common";
 import prisma from '../../../shared/prisma';

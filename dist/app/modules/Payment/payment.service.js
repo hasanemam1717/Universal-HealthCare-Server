@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.paymentService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const ssl_service_1 = require("../SSL/ssl.service");
-const index_d_1 = require("./../../../generated/prisma/index.d");
+const prisma_2 = require("./../../../generated/prisma");
 const initPayment = async (appointmentId) => {
     const paymentData = await prisma_1.default.payment.findFirstOrThrow({
         where: {
@@ -50,7 +50,7 @@ const validatePayment = async (payload) => {
                 transactionId: response.tran_id
             },
             data: {
-                status: index_d_1.PaymentStatus.PAID,
+                status: prisma_2.PaymentStatus.PAID,
                 paymentGatewayData: response
             }
         });
@@ -59,7 +59,7 @@ const validatePayment = async (payload) => {
                 id: updatedPaymentData.appointmentId
             },
             data: {
-                paymentStatus: index_d_1.PaymentStatus.PAID
+                paymentStatus: prisma_2.PaymentStatus.PAID
             }
         });
     });

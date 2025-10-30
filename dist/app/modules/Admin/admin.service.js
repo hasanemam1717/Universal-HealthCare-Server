@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminService = void 0;
-const index_d_1 = require("./../../../generated/prisma/index.d");
+const prisma_1 = require("./../../../generated/prisma");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
-const prisma_1 = __importDefault(require("../../../shared/prisma"));
+const prisma_2 = __importDefault(require("../../../shared/prisma"));
 const admin_constant_1 = require("./admin.constant");
 const getAllAdminData = async (params, options) => {
     const { limit, page, skip } = paginationHelper_1.paginationHelpers.calculatePagination(options);
@@ -38,7 +38,7 @@ const getAllAdminData = async (params, options) => {
     }
     // console.dir(addConditions, { depth: "infinity" });
     const whereCondition = { AND: addConditions };
-    const result = await prisma_1.default.admin.findMany({
+    const result = await prisma_2.default.admin.findMany({
         where: whereCondition,
         skip: (Number(page) - 1) * Number(limit),
         take: Number(limit),
@@ -48,7 +48,7 @@ const getAllAdminData = async (params, options) => {
             createdAt: 'desc'
         }
     });
-    const total = await prisma_1.default.admin.count({
+    const total = await prisma_2.default.admin.count({
         where: whereCondition
     });
     return {
@@ -61,7 +61,7 @@ const getAllAdminData = async (params, options) => {
     };
 };
 const getDataById = async (id) => {
-    const result = await prisma_1.default.admin.findUnique({
+    const result = await prisma_2.default.admin.findUnique({
         where: {
             id,
             isDeleted: false
@@ -70,13 +70,13 @@ const getDataById = async (id) => {
     return result;
 };
 const updateIntoDb = async (id, data) => {
-    await prisma_1.default.admin.findUniqueOrThrow({
+    await prisma_2.default.admin.findUniqueOrThrow({
         where: {
             id,
             isDeleted: false
         }
     });
-    const result = await prisma_1.default.admin.update({
+    const result = await prisma_2.default.admin.update({
         where: {
             id
         },
@@ -85,12 +85,12 @@ const updateIntoDb = async (id, data) => {
     return result;
 };
 const deleteFromDb = async (id) => {
-    await prisma_1.default.admin.findUniqueOrThrow({
+    await prisma_2.default.admin.findUniqueOrThrow({
         where: {
             id
         }
     });
-    const result = await prisma_1.default.$transaction(async (transactionClient) => {
+    const result = await prisma_2.default.$transaction(async (transactionClient) => {
         const adminDeletedData = await transactionClient.admin.delete({
             where: {
                 id
@@ -105,13 +105,13 @@ const deleteFromDb = async (id) => {
     });
 };
 const softDeleteFromDb = async (id) => {
-    await prisma_1.default.admin.findUniqueOrThrow({
+    await prisma_2.default.admin.findUniqueOrThrow({
         where: {
             id,
             isDeleted: false
         }
     });
-    const result = await prisma_1.default.$transaction(async (transactionClient) => {
+    const result = await prisma_2.default.$transaction(async (transactionClient) => {
         const adminDeletedData = await transactionClient.admin.update({
             where: {
                 id
@@ -125,7 +125,7 @@ const softDeleteFromDb = async (id) => {
                 email: adminDeletedData.email
             },
             data: {
-                status: index_d_1.UserStatus.DELETED
+                status: prisma_1.UserStatus.DELETED
             }
         });
         return adminDeletedData;

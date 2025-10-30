@@ -4,7 +4,7 @@ import { IAuthUser } from "../../interfaces/common";
 import { IPaginationOptions } from "../../interfaces/pagination";
 import ApiError from "../../errors/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
-import { Prisma } from "./../../../generated/prisma/index.d";
+import { Prisma } from "./../../../generated/prisma";
 import status from "http-status";
 import { IDoctorScheduleFilterRequest } from "./scheduleDoctor.interface";
 

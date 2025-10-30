@@ -1,4 +1,4 @@
-import { Admin, Doctor, Patient, Prisma, UserRole, UserStatus } from "./../../../generated/prisma/index.d";
+import { Admin, Doctor, Patient, Prisma, UserRole, UserStatus } from "./../../../generated/prisma";
 import bcrypt from 'bcrypt'
 import prisma from "../../../shared/prisma";
 import { fileUploader } from "../../../helpers/fileUploaders";

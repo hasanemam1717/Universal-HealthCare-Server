@@ -1,6 +1,6 @@
 import express from 'express';
 import auth from '../../middlewares/auth';
-import { UserRole } from './../../../generated/prisma/index.d';
+import { UserRole } from './../../../generated/prisma';
 import { metaController } from './meta.controller';
 const router = express.Router()
 router.get('/', auth(UserRole.PATIENT, UserRole.ADMIN, UserRole.DOCTOR, UserRole.SUPER_ADMIN), metaController.getMetaForDashBoard)

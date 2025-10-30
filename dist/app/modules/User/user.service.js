@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
-const index_d_1 = require("./../../../generated/prisma/index.d");
+const prisma_1 = require("./../../../generated/prisma");
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const prisma_1 = __importDefault(require("../../../shared/prisma"));
+const prisma_2 = __importDefault(require("../../../shared/prisma"));
 const fileUploaders_1 = require("../../../helpers/fileUploaders");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const user_constance_1 = require("./user.constance");
@@ -21,9 +21,9 @@ const createAdmin = async (req) => {
     const userData = {
         email: req.body.admin.email,
         password: hashPassword,
-        role: index_d_1.UserRole.ADMIN
+        role: prisma_1.UserRole.ADMIN
     };
-    const result = await prisma_1.default.$transaction(async (transactionClient) => {
+    const result = await prisma_2.default.$transaction(async (transactionClient) => {
         const createUserData = await transactionClient.user.create({
             data: userData
         });
@@ -44,9 +44,9 @@ const createDoctor = async (req) => {
     const userData = {
         email: req.body.doctor.email,
         password: hashedPassword,
-        role: index_d_1.UserRole.DOCTOR
+        role: prisma_1.UserRole.DOCTOR
     };
-    const result = await prisma_1.default.$transaction(async (transactionClient) => {
+    const result = await prisma_2.default.$transaction(async (transactionClient) => {
         await transactionClient.user.create({
             data: userData
         });
@@ -67,9 +67,9 @@ const createPatient = async (req) => {
     const userData = {
         email: req.body.patient.email,
         password: hashedPassword,
-        role: index_d_1.UserRole.PATIENT
+        role: prisma_1.UserRole.PATIENT
     };
-    const result = await prisma_1.default.$transaction(async (transactionClient) => {
+    const result = await prisma_2.default.$transaction(async (transactionClient) => {
         await transactionClient.user.create({
             data: userData
         });
@@ -107,7 +107,7 @@ const getAllUserFromDb = async (params, options) => {
     }
     // console.dir(addConditions, { depth: "infinity" });
     const whereCondition = addConditions.length > 0 ? { AND: addConditions } : {};
-    const result = await prisma_1.default.user.findMany({
+    const result = await prisma_2.default.user.findMany({
         where: whereCondition,
         skip: (Number(page) - 1) * Number(limit),
         take: Number(limit),
@@ -125,7 +125,7 @@ const getAllUserFromDb = async (params, options) => {
             updatedAt: true
         }
     });
-    const total = await prisma_1.default.user.count({
+    const total = await prisma_2.default.user.count({
         where: whereCondition
     });
     return {
@@ -138,12 +138,12 @@ const getAllUserFromDb = async (params, options) => {
     };
 };
 const changeProfileStatus = async (id, status) => {
-    const userData = await prisma_1.default.user.findUniqueOrThrow({
+    const userData = await prisma_2.default.user.findUniqueOrThrow({
         where: {
             id
         }
     });
-    const updateUserStatus = await prisma_1.default.user.update({
+    const updateUserStatus = await prisma_2.default.user.update({
         where: {
             id
         },
@@ -153,10 +153,10 @@ const changeProfileStatus = async (id, status) => {
 };
 const getMyProfile = async (user) => {
     console.log(user);
-    const userInfo = await prisma_1.default.user.findUniqueOrThrow({
+    const userInfo = await prisma_2.default.user.findUniqueOrThrow({
         where: {
             email: user.email,
-            status: index_d_1.UserStatus.ACTIVE
+            status: prisma_1.UserStatus.ACTIVE
         },
         select: {
             id: true,
@@ -169,29 +169,29 @@ const getMyProfile = async (user) => {
         }
     });
     let profileInfo;
-    if (userInfo.role === index_d_1.UserRole.SUPER_ADMIN) {
-        profileInfo = await prisma_1.default.admin.findUnique({
+    if (userInfo.role === prisma_1.UserRole.SUPER_ADMIN) {
+        profileInfo = await prisma_2.default.admin.findUnique({
             where: {
                 email: userInfo.email
             }
         });
     }
-    else if (userInfo.role === index_d_1.UserRole.ADMIN) {
-        profileInfo = await prisma_1.default.admin.findUnique({
+    else if (userInfo.role === prisma_1.UserRole.ADMIN) {
+        profileInfo = await prisma_2.default.admin.findUnique({
             where: {
                 email: userInfo.email
             }
         });
     }
-    else if (userInfo.role === index_d_1.UserRole.DOCTOR) {
-        profileInfo = await prisma_1.default.admin.findUnique({
+    else if (userInfo.role === prisma_1.UserRole.DOCTOR) {
+        profileInfo = await prisma_2.default.admin.findUnique({
             where: {
                 email: userInfo.email
             }
         });
     }
-    else if (userInfo.role === index_d_1.UserRole.PATIENT) {
-        profileInfo = await prisma_1.default.admin.findUnique({
+    else if (userInfo.role === prisma_1.UserRole.PATIENT) {
+        profileInfo = await prisma_2.default.admin.findUnique({
             where: {
                 email: userInfo.email
             }
@@ -200,10 +200,10 @@ const getMyProfile = async (user) => {
     return { ...userInfo, ...profileInfo };
 };
 const updateMyProfile = async (user, req) => {
-    const userInfo = await prisma_1.default.user.findUniqueOrThrow({
+    const userInfo = await prisma_2.default.user.findUniqueOrThrow({
         where: {
             email: user?.email,
-            status: index_d_1.UserStatus.ACTIVE
+            status: prisma_1.UserStatus.ACTIVE
         }
     });
     const file = req.file;
@@ -212,32 +212,32 @@ const updateMyProfile = async (user, req) => {
         req.body.profilePhoto = uploadToCloudinary?.secure_url;
     }
     let profileInfo;
-    if (userInfo.role === index_d_1.UserRole.SUPER_ADMIN) {
-        profileInfo = await prisma_1.default.admin.update({
+    if (userInfo.role === prisma_1.UserRole.SUPER_ADMIN) {
+        profileInfo = await prisma_2.default.admin.update({
             where: {
                 email: userInfo.email
             },
             data: req.body
         });
     }
-    else if (userInfo.role === index_d_1.UserRole.ADMIN) {
-        profileInfo = await prisma_1.default.admin.update({
+    else if (userInfo.role === prisma_1.UserRole.ADMIN) {
+        profileInfo = await prisma_2.default.admin.update({
             where: {
                 email: userInfo.email
             },
             data: req.body
         });
     }
-    else if (userInfo.role === index_d_1.UserRole.DOCTOR) {
-        profileInfo = await prisma_1.default.admin.update({
+    else if (userInfo.role === prisma_1.UserRole.DOCTOR) {
+        profileInfo = await prisma_2.default.admin.update({
             where: {
                 email: userInfo.email
             },
             data: req.body
         });
     }
-    else if (userInfo.role === index_d_1.UserRole.PATIENT) {
-        profileInfo = await prisma_1.default.admin.update({
+    else if (userInfo.role === prisma_1.UserRole.PATIENT) {
+        profileInfo = await prisma_2.default.admin.update({
             where: {
                 email: userInfo.email
             },
