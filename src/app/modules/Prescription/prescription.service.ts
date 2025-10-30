@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-import { AppointmentStatus, PaymentStatus, Prescription } from "./../../../generated/prisma";
+import { AppointmentStatus, PaymentStatus, Prescription } from "@prisma/client";
 import prisma from "../../../shared/prisma";
 import ApiError from "../../errors/ApiError";
 import { IAuthUser } from "../../interfaces/common";

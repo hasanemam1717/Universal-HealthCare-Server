@@ -7,7 +7,7 @@ import config from "../../../config"
 import { Secret } from "jsonwebtoken"
 import ApiErrors from "../../errors/ApiError"
 import status from "http-status"
-import { UserStatus } from "./../../../generated/prisma"
+import { UserStatus } from "@prisma/client"
 import emailSender from "./emailSender"
 import ApiError from "../../errors/ApiError"
 

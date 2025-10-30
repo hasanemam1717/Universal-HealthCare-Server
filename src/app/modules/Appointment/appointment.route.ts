@@ -3,7 +3,7 @@ import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { AppointmentValidation } from './appointment.validation';
 import { AppointmentController } from './appointment.controller';
-import { UserRole } from './../../../generated/prisma';
+import { UserRole } from '@prisma/client';
 
 const router = express.Router();
 

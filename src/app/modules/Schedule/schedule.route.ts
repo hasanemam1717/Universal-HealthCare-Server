@@ -1,4 +1,4 @@
-import { UserRole } from '././../../../generated/prisma';
+import { UserRole } from '@prisma/client';
 
 import express from 'express';
 import { ScheduleController } from './schedule.controller';

@@ -2,7 +2,7 @@
 
 import express, { NextFunction, Request, Response } from "express";
 import auth from "../../middlewares/auth";
-import { UserRole } from "./../../../generated/prisma";
+import { UserRole } from "@prisma/client";
 import { doctorController } from "./doctor.controller";
 
 const router = express.Router()
