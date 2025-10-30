@@ -16,7 +16,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc",
+    "build": "npx prisma generate && tsc",
+    "prod": "NODE_ENV=production node ./dist/server.js",
     "start": "node dist/server.js",
     "seed": "ts-node prisma/seed.ts"
   },
@@ -28,13 +29,13 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.3",
     "@types/nodemailer": "^6.4.17",
-    "prisma": "^6.16.3",
+    "prisma": "^6.18.0",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@prisma/client": "^6.16.2",
+    "@prisma/client": "^6.18.0",
     "@types/multer": "^2.0.0",
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
