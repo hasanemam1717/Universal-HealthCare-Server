@@ -10,7 +10,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = __importDefault(require("../../../config"));
 const ApiError_1 = __importDefault(require("../../errors/ApiError"));
 const http_status_1 = __importDefault(require("http-status"));
-const prisma_2 = require("../../../generated/prisma");
+const index_d_1 = require("./../../../generated/prisma/index.d");
 const emailSender_1 = __importDefault(require("./emailSender"));
 const ApiError_2 = __importDefault(require("../../errors/ApiError"));
 const logInUser = async (payload) => {
@@ -43,7 +43,7 @@ const refreshToken = async (token) => {
     const userData = await prisma_1.default.user.findUniqueOrThrow({
         where: {
             email: decodedData.email,
-            status: prisma_2.UserStatus.ACTIVE
+            status: index_d_1.UserStatus.ACTIVE
         }
     });
     return userData;
@@ -52,7 +52,7 @@ const changePassword = async (user, payload) => {
     const userData = await prisma_1.default.user.findFirstOrThrow({
         where: {
             email: user.email,
-            status: prisma_2.UserStatus.ACTIVE
+            status: index_d_1.UserStatus.ACTIVE
         }
     });
     const isCorrectPassword = await bcrypt_1.default.compare(payload.oldPassword, userData.password);
@@ -77,7 +77,7 @@ const forgotPassword = async (payload) => {
     const userData = await prisma_1.default.user.findUniqueOrThrow({
         where: {
             email: payload.email,
-            status: prisma_2.UserStatus.ACTIVE
+            status: index_d_1.UserStatus.ACTIVE
         }
     });
     const resetPassToken = jwtTokenGenaretor_1.jwtHelpers.generateToken({ email: userData.email, role: userData.role }, config_1.default.jwt.jwt_secret_reset_password, config_1.default.jwt.jwt_expire_in);
@@ -103,7 +103,7 @@ const resetPassword = async (token, payload) => {
     const userData = await prisma_1.default.user.findUniqueOrThrow({
         where: {
             id: payload.id,
-            status: prisma_2.UserStatus.ACTIVE
+            status: index_d_1.UserStatus.ACTIVE
         }
     });
     const isValidToken = jwtTokenGenaretor_1.jwtHelpers.verifyToken(token, config_1.default.jwt.jwt_secret_reset_password);

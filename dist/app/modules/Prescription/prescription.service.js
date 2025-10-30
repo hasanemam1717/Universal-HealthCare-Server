@@ -5,16 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prescriptionService = void 0;
 const http_status_1 = __importDefault(require("http-status"));
-const prisma_1 = require("../../../generated/prisma");
-const prisma_2 = __importDefault(require("../../../shared/prisma"));
+const index_d_1 = require("./../../../generated/prisma/index.d");
+const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const ApiError_1 = __importDefault(require("../../errors/ApiError"));
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const insertIntoDb = async (user, payload) => {
-    const appointmentData = await prisma_2.default.appointment.findUniqueOrThrow({
+    const appointmentData = await prisma_1.default.appointment.findUniqueOrThrow({
         where: {
             id: payload.appointmentId,
-            status: prisma_1.AppointmentStatus.COMPLETED,
-            paymentStatus: prisma_1.PaymentStatus.PAID
+            status: index_d_1.AppointmentStatus.COMPLETED,
+            paymentStatus: index_d_1.PaymentStatus.PAID
         },
         include: {
             doctor: true
@@ -23,7 +23,7 @@ const insertIntoDb = async (user, payload) => {
     if (!(user?.email === appointmentData.doctor.email)) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "This is not your appointment");
     }
-    const result = await prisma_2.default.prescription.create({
+    const result = await prisma_1.default.prescription.create({
         data: {
             appointmentId: appointmentData.id,
             doctorId: appointmentData.doctor.id,
@@ -39,7 +39,7 @@ const insertIntoDb = async (user, payload) => {
 };
 const getPatientPrescription = async (user, options) => {
     const { limit, page, skip } = paginationHelper_1.paginationHelpers.calculatePagination(options);
-    const result = await prisma_2.default.prescription.findMany({
+    const result = await prisma_1.default.prescription.findMany({
         where: {
             patient: {
                 email: user.email
@@ -54,7 +54,7 @@ const getPatientPrescription = async (user, options) => {
             appointment: true
         }
     });
-    const total = await prisma_2.default.prescription.count({
+    const total = await prisma_1.default.prescription.count({
         where: {
             patient: {
                 email: user.email

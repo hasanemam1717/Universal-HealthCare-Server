@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userValidation = void 0;
 const zod_1 = require("zod");
-const prisma_1 = require("../../../generated/prisma");
+const index_d_1 = require("./../../../generated/prisma/index.d");
 const createAdmin = zod_1.z.object({
     password: zod_1.z.string({
         error: "Password is required"
@@ -38,7 +38,7 @@ const createDoctor = zod_1.z.object({
             error: "Reg number is required"
         }),
         experience: zod_1.z.number().optional(),
-        gender: zod_1.z.enum([prisma_1.Gender.MALE, prisma_1.Gender.FEMALE]),
+        gender: zod_1.z.enum([index_d_1.Gender.MALE, index_d_1.Gender.FEMALE]),
         appointmentFee: zod_1.z.number({
             error: "appointment fee is required"
         }),
@@ -72,7 +72,7 @@ const createPatient = zod_1.z.object({
 });
 const updateStatus = zod_1.z.object({
     body: zod_1.z.object({
-        status: zod_1.z.enum([prisma_1.UserStatus.ACTIVE, prisma_1.UserStatus.BLOCKED, prisma_1.UserStatus.DELETED])
+        status: zod_1.z.enum([index_d_1.UserStatus.ACTIVE, index_d_1.UserStatus.BLOCKED, index_d_1.UserStatus.DELETED])
     })
 });
 exports.userValidation = {

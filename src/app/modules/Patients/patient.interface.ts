@@ -1,4 +1,4 @@
-import { BloodGroup, Gender, MaritalStatus } from "../../../generated/prisma";
+import { BloodGroup, Gender, MaritalStatus } from "./../../../generated/prisma/index.d";
 
 
 export type IPatientFilterRequest = {

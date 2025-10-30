@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-import { Review } from "../../../generated/prisma";
+import { Review } from "./../../../generated/prisma/index.d";
 import prisma from "../../../shared/prisma";
 import ApiError from "../../errors/ApiError";
 import { IAuthUser } from "../../interfaces/common"

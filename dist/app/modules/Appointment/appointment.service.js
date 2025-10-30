@@ -8,7 +8,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const uuid_1 = require("uuid");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
-const prisma_2 = require("../../../generated/prisma");
+const index_d_1 = require("./../../../generated/prisma/index.d");
 const ApiError_1 = __importDefault(require("../../errors/ApiError"));
 const createAppointment = async (user, payload) => {
     const patientData = await prisma_1.default.patient.findUniqueOrThrow({
@@ -73,14 +73,14 @@ const getMyAppointment = async (user, filters, options) => {
     const { limit, page, skip } = paginationHelper_1.paginationHelpers.calculatePagination(options);
     const { ...filterData } = filters;
     const andConditions = [];
-    if (user?.role === prisma_2.UserRole.PATIENT) {
+    if (user?.role === index_d_1.UserRole.PATIENT) {
         andConditions.push({
             patient: {
                 email: user?.email
             }
         });
     }
-    else if (user?.role === prisma_2.UserRole.DOCTOR) {
+    else if (user?.role === index_d_1.UserRole.DOCTOR) {
         andConditions.push({
             doctor: {
                 email: user?.email
@@ -103,7 +103,7 @@ const getMyAppointment = async (user, filters, options) => {
         orderBy: options.sortBy && options.sortOrder
             ? { [options.sortBy]: options.sortOrder }
             : { createdAt: 'desc' },
-        include: user?.role === prisma_2.UserRole.PATIENT
+        include: user?.role === index_d_1.UserRole.PATIENT
             ? { doctor: true, schedule: true } : { patient: { include: { medicalReport: true, patientHealthData: true } }, schedule: true }
     });
     const total = await prisma_1.default.appointment.count({
@@ -184,7 +184,7 @@ const changeAppointmentStatus = async (appointmentId, status, user) => {
             doctor: true
         }
     });
-    if (user?.role === prisma_2.UserRole.DOCTOR) {
+    if (user?.role === index_d_1.UserRole.DOCTOR) {
         if (!(user.email === appointmentData.doctor.email)) {
             throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "This is not your appointment.");
         }
@@ -206,7 +206,7 @@ const cancelUnpaidAppointments = async () => {
             createdAt: {
                 lte: thirtyMinutesAgo
             },
-            paymentStatus: prisma_2.PaymentStatus.UNPAID
+            paymentStatus: index_d_1.PaymentStatus.UNPAID
         }
     });
     const appointmentIdsToCancel = unpaidAppointments.map(appoint => appoint.id);

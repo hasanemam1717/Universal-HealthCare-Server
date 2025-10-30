@@ -1,6 +1,6 @@
 
 
-import { Doctor, Prisma, UserStatus } from "../../../generated/prisma";
+import { Doctor, Prisma, UserStatus } from "./../../../generated/prisma/index.d";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import prisma from "../../../shared/prisma";
 import { IPaginationOptions } from "../../interfaces/pagination";

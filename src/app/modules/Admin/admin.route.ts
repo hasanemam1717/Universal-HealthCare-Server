@@ -5,7 +5,7 @@ import { adminController } from "./admin.controller";
 import validateRequest from '../../middlewares/validateRequest';
 import { adminValidationSchemas } from './admin.validation';
 import auth from "../../middlewares/auth";
-import { UserRole } from "../../../generated/prisma";
+import { UserRole } from "./../../../generated/prisma/index.d";
 
 const router = express.Router()
 

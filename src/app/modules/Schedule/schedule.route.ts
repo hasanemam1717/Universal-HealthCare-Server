@@ -1,5 +1,6 @@
+import { UserRole } from '././../../../generated/prisma/index.d';
+
 import express from 'express';
-import { UserRole } from '../../../generated/prisma';
 import { ScheduleController } from './schedule.controller';
 import auth from '../../middlewares/auth';
 
